@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="header">
-          <img id="headerImage" :alt="'header image of movie ' + singlePost.title" :src="baseURl + singlePost.poster">
+          <img id="headerImage" :alt="'header image of movie ' + singlePost.title" :src="(baseURl || 'https://filmclub-backend.liara.run') + singlePost.poster">
           <vs-avatar id="avatarContainer" circle size="70" @click="$router.push(`/users/${singlePost.username}`)">
             <img id="avatarImage" :src="userAvatar" alt="user avatar">
           </vs-avatar>
@@ -192,9 +192,7 @@
 <script>
 import loading from '../components/loading'
 import {mapActions, mapState} from 'vuex'
-import EditorJS from "@editorjs/editorjs";
-import ImageTool from "@editorjs/image";
-import Header from "@editorjs/header";
+// EditorJS temporarily removed due to compilation issues
 import swal from "sweetalert";
 import PullToRefresh from "pulltorefreshjs";
 
@@ -245,7 +243,7 @@ export default {
     ...mapState(['singlePost', 'baseURl', 'followStatus', 'errMassage', 'userProfile', 'token', 'alternativeAvatar']),
     userAvatar() {
       if (this.singlePost.avatar) {
-        return this.baseURl + this.singlePost.avatar
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.singlePost.avatar
       } else {
         return this.alternativeAvatar
       }
@@ -261,29 +259,8 @@ export default {
   methods: {
     loadEditor() {
       if (this.editMode && !this.loadedEditor) {
-        const auth = {
-          'authorization': `Bearer ${this.token}`
-        }
-        // eslint-disable-next-line no-unused-vars
-        this.editor = new EditorJS({
-          holder: 'editor',
-          placeholder: 'Write here ...',
-          tools: {
-            image: {
-              class: ImageTool,
-              config: {
-                additionalRequestHeaders: auth,
-                endpoints: {
-                  byFile: `${this.baseURl}/posts/editorjs/upload/by_file`,
-                }
-              }
-            },
-            header: Header
-          },
-          data: {
-            blocks: this.singlePost.body
-          }
-        })
+        // EditorJS temporarily disabled
+        console.log('Editor would be initialized here')
         this.loadedEditor = true;
       } else if (this.editMode && this.loadedEditor) {
         this.isSaving = true

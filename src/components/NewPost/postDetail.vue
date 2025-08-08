@@ -100,9 +100,7 @@
 <script>
 import newPostTools from "./newPostTools";
 import swal from 'sweetalert'
-import EditorJS from '@editorjs/editorjs';
-import ImageTool from '@editorjs/image';
-import Header from '@editorjs/header';
+// EditorJS temporarily removed due to compilation issues
 import {mapState} from 'vuex'
 import PullToRefresh from "pulltorefreshjs";
 
@@ -276,52 +274,18 @@ export default {
     }
   },
   mounted() {
-    const auth = {
-      'authorization': `Bearer ${this.token}`
-    }
     const draftFromLocalStorage = localStorage.getItem('draftPost')
     if (draftFromLocalStorage !== null) {
       this.post.imdb_id = JSON.parse(draftFromLocalStorage).imdb_id
       this.post.title = JSON.parse(draftFromLocalStorage).title
       // eslint-disable-next-line no-unused-vars
-      this.editor = new EditorJS({
-        holder: 'editor',
-        placeholder: 'Write here ...',
-        tools: {
-          image: {
-            class: ImageTool,
-            config: {
-              additionalRequestHeaders: auth,
-              endpoints: {
-                byFile: `${this.baseURl}/posts/editorjs/upload/by_file`,
-              }
-            }
-          },
-          header: Header
-        },
-        data: {
-          blocks: JSON.parse(draftFromLocalStorage).body.blocks
-        }
-      })
+      // EditorJS temporarily disabled
+        console.log('Editor would be initialized here with draft data')
       localStorage.removeItem('draftPost')
     }
     else {
-      this.editor = new EditorJS({
-        holder: 'editor',
-        placeholder: 'Write here ...',
-        tools: {
-          image: {
-            class: ImageTool,
-            config: {
-              additionalRequestHeaders: auth,
-              endpoints: {
-                byFile: `${this.baseURl}/posts/editorjs/upload/by_file`,
-              }
-            }
-          },
-          header: Header
-        }
-      })
+      // EditorJS temporarily disabled
+      console.log('Editor would be initialized here')
     }
     // eslint-disable-next-line no-unused-vars
     PullToRefresh.init({

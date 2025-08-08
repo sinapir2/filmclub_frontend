@@ -9,8 +9,9 @@
     "watch": "vue-cli-service build --watch"
   },
   "dependencies": {
-    "@editorjs/editorjs": "^2.22.0",
+    "@editorjs/editorjs": "^2.12.4",
     "@editorjs/header": "^2.6.1",
+
     "@iconify-icons/mdi-light": "^1.1.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
@@ -35,8 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
-    "@editorjs/image": "^2.6.0",
-    "@iconify/vue": "^2.0.0-rc.3",
+
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.13",

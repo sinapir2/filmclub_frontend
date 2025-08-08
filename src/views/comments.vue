@@ -22,7 +22,7 @@
     <div v-for="(comment) in postComments" :id="comment.specialID ? comment.specialID : comment._id " :key="comment._id"
          class="singleComment hasChild">
       <vs-avatar circle class="avatar">
-        <img :src="comment.userId.avatar ? (baseURl +  comment.userId.avatar) : alternativeAvatar"
+        <img :src="comment.userId.avatar ? ((baseURl || 'https://filmclub-backend.liara.run') +  comment.userId.avatar) : alternativeAvatar"
              alt="user avatar" style="object-fit: cover; width:100%; height:100%;">
       </vs-avatar>
       <div v-long-press="500" class="body"
@@ -46,7 +46,7 @@
            v-long-press="500" class="singleComment childs hasChild"
            @long-press-start="selectComment(childComment.specialID ? childComment.specialID : childComment._id, comment._id)">
         <vs-avatar circle class="avatar">
-          <img :src="childComment.userId.avatar ? (baseURl +  childComment.userId.avatar) : alternativeAvatar"
+          <img :src="childComment.userId.avatar ? ((baseURl || 'https://filmclub-backend.liara.run') +  childComment.userId.avatar) : alternativeAvatar"
                alt="user avatar"
                style="object-fit: cover;width:100%; height:100%;">
         </vs-avatar>
@@ -71,7 +71,7 @@
     <div class="addNewComment" @keypress.enter="postComment">
       <div @click="postComment()">
         <vs-avatar circle size="40" style="margin-left: 0.5rem;">
-          <img :src="userProfile.avatar ? baseURl + userProfile.avatar : alternativeAvatar" alt="user avatar"
+          <img :src="userProfile.avatar ? (baseURl || 'https://filmclub-backend.liara.run') + userProfile.avatar : alternativeAvatar" alt="user avatar"
                style="width:100%; height:100%; object-fit: cover;">
         </vs-avatar>
       </div>

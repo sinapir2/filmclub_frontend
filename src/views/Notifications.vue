@@ -19,7 +19,7 @@
           style="text-decoration: none; height:100%; width:100%;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
         <vs-avatar badge-color="success" circle size="40" v-if="!notification.customNotif">
-          <img :src="notification.avatar ? baseURl + notification.avatar : alternativeAvatar" alt="avatar" style="object-fit: contain; width:40px;">
+          <img :src="notification.avatar ? (baseURl || 'https://filmclub-backend.liara.run') + notification.avatar : alternativeAvatar" alt="avatar" style="object-fit: contain; width:40px;">
         </vs-avatar>
           <div v-else style="margin-left:20px;">
         <i  :data-icon="notification.icon" :style="{ color: notification.color }" class="iconify icon"></i>

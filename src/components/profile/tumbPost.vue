@@ -8,7 +8,7 @@
             <h3>{{ post.title }}</h3>
           </template>
           <template #img>
-            <img v-lazy="post.poster" alt="image">
+            <img v-lazy="(baseURl || 'https://filmclub-backend.liara.run') + post.poster" alt="image">
           </template>
           <template #text>
             <p>
@@ -51,7 +51,7 @@ export default {
     ...mapActions(['getMyPosts'])
   },
   computed: {
-    ...mapState(['myPosts'])
+    ...mapState(['myPosts', 'baseURl'])
   },
   mounted() {
     this.isLoading = true

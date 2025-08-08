@@ -13,7 +13,7 @@
           <div class="B-info_section">
             <!-- -----------------        post header       --------------------- -->
             <div class="B-movie_header1">
-              <img v-lazy="post.poster" :alt="post.title" class="B-locandina" @load="isMovieLoaded = true;"/>
+              <img v-lazy="(baseURl || 'https://filmclub-backend.liara.run') + post.poster" :alt="post.title" class="B-locandina" @load="isMovieLoaded = true;"/>
               <h1>{{ post.title }}</h1>
               <br>
             </div>
@@ -34,7 +34,7 @@
           <div class="B-info_section">
             <!-- -----------------        post header       --------------------- -->
             <div class="B-movie_header1">
-              <img v-lazy="post.poster" :alt="post.title" class="B-locandina" @load="isSerieLoaded = true"/>
+              <img v-lazy="(baseURl || 'https://filmclub-backend.liara.run') + post.poster" :alt="post.title" class="B-locandina" @load="isSerieLoaded = true"/>
               <h1>{{ post.title }}</h1>
               <br>
             </div>
@@ -79,7 +79,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(['boxOfficeList'])
+    ...mapState(['boxOfficeList', 'baseURl'])
   }
 }
 </script>

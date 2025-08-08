@@ -6,7 +6,7 @@
       <vs-card>
         <template #title>
           <router-link :to="'/users/' + post.author">
-            <img :src="post.authorAvatar ? (baseURl + post.authorAvatar) : alternativeAvatar"
+            <img :src="post.authorAvatar ? ((baseURl || 'https://filmclub-backend.liara.run') + post.authorAvatar) : alternativeAvatar"
                  alt="user profile"
                  style="width: 30px; height: 30px; border-radius: 50%; float: left; object-fit:cover;">
             <p class="userId">{{ post.author }}</p>
@@ -53,7 +53,7 @@
         </template>
         <template #img>
           <router-link :to="'/post/' + encodeURIComponent(post.title) + '/' + post.id">
-            <img id="postImage" v-lazy="post.poster"
+            <img id="postImage" v-lazy="(baseURl || 'https://filmclub-backend.liara.run') + post.poster"
                  alt="Image Load Error">
           </router-link>
         </template>

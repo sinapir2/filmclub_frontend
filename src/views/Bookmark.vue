@@ -100,7 +100,7 @@ export default {
     ...mapGetters(['watchListLengthCalc']),
     userAvatar() {
       if (this.userProfile.avatar) {
-        return this.baseURl + this.userProfile.avatar
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.userProfile.avatar
       } else {
         return this.alternativeAvatar
       }

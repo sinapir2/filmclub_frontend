@@ -155,14 +155,14 @@ export default {
     ...mapState(['usernameInfo', 'errMassage', 'userProfile', 'followStatus', 'baseURl', 'alternativeAvatar', 'alternativeHeader',]),
     userAvatar() {
       if (this.usernameInfo.avatar) {
-        return this.baseURl + this.usernameInfo.avatar
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.usernameInfo.avatar
       } else {
         return this.alternativeAvatar
       }
     },
     userHeader() {
       if (this.usernameInfo.header) {
-        return this.baseURl + this.usernameInfo.header
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.usernameInfo.header
       } else {
         return this.alternativeHeader
       }

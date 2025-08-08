@@ -5,7 +5,7 @@
         <div class="user">
           <div class="divider"></div>
           <div class="avatar">
-            <img :src="user.avatar ? (baseURl + user.avatar) : alternativeAvatar" alt="avatar" class="usersAvatar"/>
+            <img :src="user.avatar ? ((baseURl || 'https://filmclub-backend.liara.run') + user.avatar) : alternativeAvatar" alt="avatar" class="usersAvatar"/>
           </div>
           <p>
             {{ user.username }}

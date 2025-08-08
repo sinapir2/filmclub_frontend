@@ -24,7 +24,7 @@
             Reviewer
           </template>
         </vs-avatar>
-        <svg :fill="userAvatar == (baseURl + '/public/images/avatar.jpg') ? '#0a0d0e' : 'white'" aria-hidden="true"
+        <svg :fill="userAvatar == ((baseURl || 'https://filmclub-backend.liara.run') + '/public/images/avatar.jpg') ? '#0a0d0e' : 'white'" aria-hidden="true"
              class="changeProfile"
              viewBox="0 0 24 24">
           <g>
@@ -112,14 +112,14 @@ export default {
     ...mapState(['userProfile', 'errMassage', 'alternativeAvatar', 'alternativeHeader', 'baseURl', 'version']),
     userAvatar() {
       if (this.userProfile.avatar) {
-        return this.baseURl + this.userProfile.avatar
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.userProfile.avatar
       } else {
         return this.alternativeAvatar
       }
     },
     userHeader() {
       if (this.userProfile.header) {
-        return this.baseURl + this.userProfile.header + '?ver=' + this.version
+        return (this.baseURl || 'https://filmclub-backend.liara.run') + this.userProfile.header + '?ver=' + this.version
       } else {
         return this.alternativeHeader
       }
