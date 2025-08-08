@@ -1,7 +1,6 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 import axios from "axios";
-import qs from "querystring";
+import qs from "qs";
 import router from "../router";
 import swal from "sweetalert";
 import * as clientDB from "./clientDB";
@@ -18,8 +17,8 @@ if (re.test(userAgent)) {
     return config;
   });
 }
-Vue.use(Vuex);
-export default new Vuex.Store({
+
+export default createStore({
   state: {
     baseURl: "https://filmclub-backend.liara.run",
     splashScreenShow: true,
@@ -90,7 +89,7 @@ export default new Vuex.Store({
      * @returns {number of posts in watchlist}
      */
     watchListLengthCalc(state) {
-      let len = Object.keys(state.watchListMoviesIDs).length;
+      const len = Object.keys(state.watchListMoviesIDs).length;
       return Number(len);
     },
     /**
@@ -98,10 +97,10 @@ export default new Vuex.Store({
      * @returns {number of notifications that user didn't see them yet}
      */
     notificatonsCalc(state) {
-      let notifications = state.notifications.filter((item) => {
+      const notifications = state.notifications.filter((item) => {
         return item.isSeen === false;
       });
-      let len = Object.keys(notifications).length;
+      const len = Object.keys(notifications).length;
       if (Number(len) === 0) {
         return "";
       } else {
@@ -120,7 +119,7 @@ export default new Vuex.Store({
       state.watchListMoviesList = payload;
     },
     toggleWatchListLoaded(state, payload) {
-      this.state.isWatchListLoaded = payload;
+      state.isWatchListLoaded = payload;
     },
     fetchSearchListMovies(state, payload) {
       state.searchListMoviesList = payload;
@@ -172,7 +171,7 @@ export default new Vuex.Store({
       state.userProfile = payload;
     },
     toggleProfileLoaded(state, payload) {
-      this.state.isProfileLoaded = payload;
+      state.isProfileLoaded = payload;
     },
     // end of self user
     // ---------------- Watch list
@@ -186,10 +185,10 @@ export default new Vuex.Store({
     },
     // ---------------- end of watch list
     getTokenFromLocal(state) {
-      let botPattern =
+      const botPattern =
         "(googlebot/|bot|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
-      let re = new RegExp(botPattern, "i");
-      let userAgent = navigator.userAgent;
+      const re = new RegExp(botPattern, "i");
+      const userAgent = navigator.userAgent;
       if (re.test(userAgent)) {
         state.token =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inpib3QiLCJlbWFpbCI6ImJvdEBib3QuYm90IiwibmFtZSI6ImJvdCBhY2Nlc3MiLCJpYXQiOjE2Mjk0Nzk2OTl9.L2oNitBKRLt-vZkkSpHV1vVPZYpg3CA4pT7xYv5xlq4";
@@ -290,15 +289,8 @@ export default new Vuex.Store({
       state.homePosts.push(...payload);
     },
     updateCachePosts(state, payload) {
-      // payload.forEach((post) =>{
-      //     let index = state.homePosts.findIndex((homePost) => homePost.id === post.id)
-      //     console.log("index" + index)
-      //     state.homePosts[index]['likes'] = post.likes
-      //     state.homePosts[index]['comments'] = post.comments
-      //     state.homePosts[index]['isLiked'] = post.isLiked
-      // })
       state.homePosts.forEach((post) => {
-        let index = payload.findIndex(
+        const index = payload.findIndex(
           (payloadPost) => payloadPost.id === post.id
         );
         post.likes = payload[index]["likes"];
@@ -422,7 +414,7 @@ export default new Vuex.Store({
       const now = new Date();
       state.hasNextPage = payload.hasNextPage;
       payload.docs.forEach((comment) => {
-        let commentDate = new Date(comment.createdAt);
+        const commentDate = new Date(comment.createdAt);
         let passed = Math.floor(
           (now.getTime() - commentDate.getTime()) / 1000 / 60 / 60 / 24
         );
@@ -509,7 +501,7 @@ export default new Vuex.Store({
             }
             dispatch("errorHandler", error);
           });
-        let watchListPosts = [];
+        const watchListPosts = [];
         let id = null;
         // ---------------- for each imdb id we send a request to api of imdb-alt to get movie cast
         for (id in state.watchListMoviesIDs) {
@@ -547,7 +539,7 @@ export default new Vuex.Store({
       }
     },
     async getSearchList({ state, commit, dispatch }, search) {
-      let searchListPosts = [];
+      const searchListPosts = [];
       /**
        * We use this api when adding new post to get the new post movie imdb id
        * and also we use this api for watch list new items
@@ -730,10 +722,10 @@ export default new Vuex.Store({
             if (!error.response) {
               swal("Can't connect to server, check your internet connection");
             } else {
-              let botPattern =
+              const botPattern =
                 "(googlebot/|bot|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
-              let re = new RegExp(botPattern, "i");
-              let userAgent = navigator.userAgent;
+              const re = new RegExp(botPattern, "i");
+              const userAgent = navigator.userAgent;
               if (re.test(userAgent)) {
                 dispatch("botLogin");
               } else {
@@ -761,9 +753,7 @@ export default new Vuex.Store({
       };
       await axios
         .request(options)
-        .then(function () {
-          // console.log(response.data)
-        })
+        .then(function () {})
         .catch(function (error) {
           dispatch("errorHandler", error);
         });
@@ -781,9 +771,7 @@ export default new Vuex.Store({
       };
       await axios
         .request(options)
-        .then(function () {
-          // console.log(response.data)
-        })
+        .then(function () {})
         .catch(function (error) {
           dispatch("errorHandler", error);
         });
@@ -1310,9 +1298,7 @@ export default new Vuex.Store({
       };
       await axios
         .request(options)
-        .then(() => {
-          // console.log(response.data.message)
-        })
+        .then(() => {})
         .catch(function (error) {
           dispatch("errorHandler", error);
         });
@@ -1343,7 +1329,7 @@ export default new Vuex.Store({
     },
     async addNewComment({ state, dispatch }, comment) {
       if (comment.parent) {
-        let options = {
+        const options = {
           method: "POST",
           url: `${state.baseURl}/posts/comment`,
           headers: {
@@ -1380,7 +1366,7 @@ export default new Vuex.Store({
             dispatch("errorHandler", error);
           });
       } else {
-        let options = {
+        const options = {
           method: "POST",
           url: `${state.baseURl}/posts/comment`,
           headers: {
@@ -1465,9 +1451,7 @@ export default new Vuex.Store({
       };
       await axios
         .request(options)
-        .then(() => {
-          // console.log(response.data)
-        })
+        .then(() => {})
         .catch(function (error) {
           dispatch("errorHandler", error);
         });

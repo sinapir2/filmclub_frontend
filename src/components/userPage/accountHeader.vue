@@ -115,24 +115,7 @@ import swal from "sweetalert";
 
 export default {
   name: "accountHeader",
-  metaInfo() {
-    return {
-      title: this.$route.params.user,
-      titleTemplate: '%s | FilmClub',
-      meta: [
-        {
-          vmid: "keyword",
-          name: "keyword",
-          content: `${this.usernameInfo.name}, ${this.$route.params.user} `,
-        },
-        {
-          vmid: "description",
-          name: "description",
-          content: `User page of ${this.usernameInfo.name} with the username of ${this.$route.params.user} and his biography : ${this.usernameInfo.biography} `,
-        }
-      ],
-    }
-  },
+  components: {},
   data() {
     return {
       colorBtn: 'rgb(70,126,246)',
@@ -140,15 +123,22 @@ export default {
       gradient: true,
       followText: 'follow',
       isFollowed: false,
+      editPro: false,
+      changedName: false,
+      changedBio: false,
       isLoading: false,
+      isNameEmpty: false,
+      file: '',
+      location: null,
+      changePro: false,
+      reportActive: false,
+      reportPostOrComment: false,
+      reportAccount: false,
       deleteObj: {
         password: 'defaultpass',
         target: null,
         reason: null
       },
-      reportActive: false,
-      reportPostOrComment: false,
-      reportAccount: false
     }
   },
   computed: {

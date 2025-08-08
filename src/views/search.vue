@@ -17,11 +17,7 @@ import {mapState} from "vuex";
 import PullToRefresh from "pulltorefreshjs";
 
 export default {
-  name: "search.vue",
-  metaInfo: {
-    title: 'Search',
-    titleTemplate: '%s | FilmClub'
-  },
+  name: "search",
   data() {
     return {
       searchBox: boxOffice,

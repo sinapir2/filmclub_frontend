@@ -63,11 +63,11 @@
         </span>
           <p v-show="!post.truncated" class="right-text" dir="auto">
             <br>
-            {{ post.body | sanitize }}
+            {{ $filters.sanitize(post.body) }}
           </p>
           <p v-show="post.truncated" class="right-text" dir="auto" @click="post.truncated = false">
             <br>
-            {{ post.body | sanitize | truncate( 150, ' ...  more') }}
+            {{ $filters.truncate($filters.sanitize(post.body), 150, ' ...  more') }}
           </p>
           <router-link :to="{ name: 'comments', params: {postID: post.id } }">
             <span style="opacity:0.7;">view all {{ post.comments }} comments</span>
@@ -85,7 +85,7 @@
               View full post
             </vs-button>
           </router-link>
-          <small style="opacity: 0.3;"><br>{{ post.createdAt | dateToString }}</small>
+          <small style="opacity: 0.3;"><br>{{ $filters.dateToString(post.createdAt) }}</small>
         </template>
       </vs-card>
     </vs-col>

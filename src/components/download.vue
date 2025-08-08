@@ -71,7 +71,7 @@
 <script>
 import axios from "axios";
 import {mapState} from 'vuex';
-import qs from "querystring";
+import qs from "qs";
 export default {
   name: "download",
   data() {
