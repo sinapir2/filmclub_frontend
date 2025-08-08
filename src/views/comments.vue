@@ -32,7 +32,7 @@
           }}</span> <span class="yekan" dir="rtl">{{ comment.content }} </span></p>
         <div class="sub">
         <span class="subTexts">
-          <span>{{ comment.createdAt | dateToString }}</span>
+          <span>{{ $filters.dateToString(comment.createdAt) }}</span>
           <span style="margin-left: 10%; display: inline-block;"
                 @click="reply=true; inputPlaceholder=`reply to ${comment.userId.username}` ; parent=comment._id;upperParent=comment._id; focus(comment._id)">reply</span>
         </span>
@@ -56,7 +56,7 @@
             <span class="yekan" dir="rtl">{{ childComment.content }}</span></p>
           <div class="sub">
         <span class="subTexts">
-          <span>{{ childComment.createdAt | dateToString }}</span>
+          <span>{{ $filters.dateToString(childComment.createdAt) }}</span>
           <span style="margin-left: 10%; display: inline-block;"
                 @click="reply=true; focusType(); inputPlaceholder=`reply to ${childComment.userId.username}`; parent=childComment._id; upperParent=comment._id; focus(comment._id)">reply</span>
         </span>

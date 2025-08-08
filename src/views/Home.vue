@@ -29,10 +29,6 @@ import singlePost from '../components/Home/singlePost'
 import Notifications from "./Notifications";
 export default {
   name: 'Home',
-  metaInfo: {
-    title: 'Home',
-    titleTemplate: '%s | FilmClub'
-  },
   components: {posts: singlePost, fixedHead, Notifications},
   data() {
     return {

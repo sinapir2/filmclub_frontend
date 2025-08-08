@@ -7,59 +7,37 @@
       <div @click="sendImage">
         <i id="check" class="iconify" data-icon="mdi:check"></i>
       </div>
-      <croppa
-          id="croppaImage"
-          v-model="croppa"
-          :height="location === 'header' ? 100 : browserWidth"
-          :prevent-white-space="true"
-          :remove-button-size="25"
-          :width="browserWidth"
-          accept="image/*"
-          placeholder=""
-          remove-button-color="black"
-          :quality="0.4"
-          @new-image="isValid=true"/>
+      <div id="croppaImage">
+        <Cropper
+          class="cropper"
+          :src="previewUrl"
+          :stencil-props="stencilProps"
+          :debounce="100"
+          @change="onChange"
+          @ready="onReady"
+        />
+        <input ref="file" accept="image/*" type="file" class="hidden" @change="onFileChange" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import { Cropper } from 'vue-advanced-cropper'
 
 export default {
-  name: "crop",
+  name: 'crop',
+  components: { Cropper },
+  props: {
+    location: { type: String, required: true }
+  },
   data() {
     return {
-      croppa: null,
       firstShow: true,
-      isValid: false
+      isValid: false,
+      previewUrl: null,
+      lastCanvas: null
     }
-  },
-  methods: {
-    ...mapActions(['updateProfilePhoto', 'getUserProfile']),
-    sendImage() {
-      if (this.isValid) {
-        this.$emit('profileChange')
-        this.firstShow = false
-        this.croppa.generateBlob((image) => {
-          let formData = new FormData();
-          formData.append(this.location, image, 'profile.jpg');
-          let imageInfo = []
-          imageInfo.image = formData;
-          imageInfo.location = this.location;
-          this.updateProfilePhoto(imageInfo).then(() => {
-            this.$emit('profileChange')
-            this.$emit('close')
-          }).catch(() => {
-            this.$emit('profileChange')
-            this.$emit('close')
-          })
-        }, 'image/jpg', 0.7)
-      }
-    }
-  },
-  mounted() {
-    this.croppa.chooseFile()
   },
   computed: {
     browserWidth() {
@@ -68,12 +46,42 @@ export default {
       } else {
         return 250
       }
+    },
+    stencilProps() {
+      return this.location === 'header'
+        ? { aspectRatio: this.browserWidth / 100 }
+        : { aspectRatio: 1 }
     }
   },
-  props: {
-    location: {
-      type: String,
-      required: true
+  mounted() {
+    this.$refs.file.click()
+  },
+  methods: {
+    onFileChange(e) {
+      const file = e.target.files[0]
+      if (!file) return
+      this.previewUrl = URL.createObjectURL(file)
+    },
+    onReady({ canvas }) {
+      this.lastCanvas = canvas
+    },
+    onChange({ canvas }) {
+      this.lastCanvas = canvas
+      this.isValid = !!canvas
+    },
+    sendImage() {
+      if (!this.isValid || !this.lastCanvas) return
+      this.$emit('profileChange')
+      this.firstShow = false
+      this.lastCanvas.toBlob((blob) => {
+        if (!blob) return
+        const formData = new FormData()
+        formData.append(this.location, blob, 'profile.jpg')
+        const imageInfo = { image: formData, location: this.location }
+        this.$store.dispatch('updateProfilePhoto', imageInfo)
+          .then(() => { this.$emit('profileChange'); this.$emit('close') })
+          .catch(() => { this.$emit('profileChange'); this.$emit('close') })
+      }, 'image/jpeg', 0.7)
     }
   }
 }
@@ -110,4 +118,7 @@ export default {
 #croppaImage {
   margin-top: 25vh;
 }
+
+.hidden { display: none; }
+.cropper { max-width: 100%; }
 </style>

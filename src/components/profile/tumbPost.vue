@@ -12,7 +12,7 @@
           </template>
           <template #text>
             <p>
-              {{ post.body | sanitize }}
+              {{ $filters.sanitize(post.body) }}
             </p>
           </template>
           <template #interactions>

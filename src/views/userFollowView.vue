@@ -61,10 +61,6 @@ import PullToRefresh from "pulltorefreshjs";
 
 export default {
   name: "followView",
-  metaInfo: {
-    title: 'Followings',
-    titleTemplate: '%s | FilmClub'
-  },
   data() {
     return {
       isLoading: false

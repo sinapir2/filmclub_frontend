@@ -30,11 +30,7 @@ import loading from "../components/loading";
 import PullToRefresh from "pulltorefreshjs";
 
 export default {
-  name: "followView",
-  metaInfo: {
-    title: 'Likes',
-    titleTemplate: '%s | FilmClub'
-  },
+  name: "likes",
   data() {
     return {
       isLoading: false

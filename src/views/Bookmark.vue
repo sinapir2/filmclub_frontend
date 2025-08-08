@@ -75,10 +75,6 @@ import loading from "../components/loading";
 
 export default {
   name: "Bookmark",
-  metaInfo: {
-    title: 'WatchList',
-    titleTemplate: '%s | FilmClub'
-  },
   components: {
     bookmarkPost,
     loading,

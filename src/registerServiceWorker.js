@@ -25,7 +25,9 @@ if (process.env.NODE_ENV === 'production') {
             console.log('New content is available; please refresh.')
             alert('content will be updated in 10 seconds. please save any unsaved work.')
             setTimeout(() => {
-                registration.waiting.postMessage({action: "skipWaiting"})
+                if (registration.waiting) {
+                  registration.waiting.postMessage({action: "skipWaiting"})
+                }
             }, 10000)
         },
         offline() {

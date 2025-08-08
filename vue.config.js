@@ -1,8 +1,10 @@
+const path = require('path')
+
 module.exports = {
     pwa: {
         workboxPluginMode: "InjectManifest",
         workboxOptions: {
-            swSrc: "src/service-worker.js"
+            swSrc: path.resolve(__dirname, 'src/service-worker.js')
         }
     },
     configureWebpack: {

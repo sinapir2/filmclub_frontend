@@ -14,10 +14,6 @@ import userName from "../components/login/userName";
 
 export default {
   name: "login",
-  metaInfo: {
-    title: 'Login',
-    titleTemplate: '%s | FilmClub'
-  },
   data() {
     return {
       stage: mailOrPhone

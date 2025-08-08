@@ -135,11 +135,11 @@
           </div>
           <div id="textBody" class="body" dir="auto">
             <div v-for="(i, index) in singlePost.body" :key="index" class="section">
-              <h3 v-if="i.type === 'header'">{{ i.data.text | sanitize }}</h3>
-              <p v-else-if="i.type === 'paragraph'" class="bodyParagraph">{{ i.data.text | sanitize }}</p>
+              <h3 v-if="i.type === 'header'">{{ $filters.sanitize(i.data.text) }}</h3>
+              <p v-else-if="i.type === 'paragraph'" class="bodyParagraph">{{ $filters.sanitize(i.data.text) }}</p>
               <figure v-else-if="i.type === 'image'">
                 <img v-lazy="i.data.file.url" :alt="i.data.caption" class="imageItemInBody">
-                <figcaption>{{ i.data.caption | sanitize }}</figcaption>
+                <figcaption>{{ $filters.sanitize(i.data.caption) }}</figcaption>
               </figure>
 
             </div>
